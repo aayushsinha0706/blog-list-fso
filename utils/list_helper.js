@@ -11,10 +11,23 @@ const favoriteBlog = (blogs) => {
     return result ? {title: result.title, author: result.author, likes: result.likes} : null
 }
 
-
+const mostBlogs = (blogs) => {
+    const authors = {};
+    for (const blog of blogs) {
+      if (blog.author in authors) {
+        authors[blog.author] += 1;
+      } else {
+        authors[blog.author] = 1;
+      }
+    }
+    const maxAuthor = Object.keys(authors).length > 0 ? Object.keys(authors).reduce((max,author) => authors[author] > authors[max] ? author : max) : null
+    const result = Object.keys(authors).length > 0 ? {author: maxAuthor, blogs: authors[maxAuthor]} : null
+    return result
+}
 
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
 }

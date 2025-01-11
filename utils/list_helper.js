@@ -38,7 +38,7 @@ const mostLikes = (blogs) => {
         }
     }
 
-    let maxLikesAuthor = { author: '', likes: 0 };
+    let maxLikesAuthor = { author: '', likes: 0 }
     for (const author in authorLikes) {
         if (authorLikes[author] > maxLikesAuthor.likes) {
             maxLikesAuthor = { author, likes: authorLikes[author]}

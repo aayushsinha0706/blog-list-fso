@@ -70,6 +70,17 @@ test('test defualts like value when missing in request', async () => {
     assert(TitleAndLikes.find(blog => blog.title==='New Blog post without likes' && blog.likes===0))
 })
 
+test('test create blog missing title or url returns 400', async () => {
+    const newBlog = {
+        author: 'New author'
+    }
+
+    await api
+       .post('/api/blogs')
+       .send(newBlog)
+       .expect(400)
+})
+
 after( async () => {
     await mongoose.connection.close()
 })

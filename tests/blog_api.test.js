@@ -54,6 +54,22 @@ test('a valid blog post can be added', async () => {
     assert(contents.includes('New blog post'))
 })
 
+test('test defualts like value when missing in request', async () => {
+    const newBlog = {
+        title: 'New Blog post without likes',
+        author: 'New author',
+        url: 'https://newblog.com'
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+    
+    const blogsAtEnd = await helper.blogsInDb() 
+    const TitleAndLikes = blogsAtEnd.map(blog =>  ({title: blog.title,likes: blog.likes}))
+    assert(TitleAndLikes.find(blog => blog.title==='New Blog post without likes' && blog.likes===0))
+})
+
 after( async () => {
     await mongoose.connection.close()
 })

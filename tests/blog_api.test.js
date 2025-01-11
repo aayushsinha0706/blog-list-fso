@@ -33,6 +33,27 @@ test('test that identifier property of the blog posts is named id and not _id', 
     assert.strictEqual(formattedBlog._id, undefined) 
 })
 
+test('a valid blog post can be added', async () => {
+    const newBlog = {
+        title: 'New blog post',
+        author: 'New author',
+        url: 'https://newblog.com',
+        likes: 5
+    }
+
+    await api
+       .post('/api/blogs')
+       .send(newBlog)
+       .expect(201)
+       .expect('Content-Type', /application\/json/)
+    
+    const blogsAtEnd = await helper.blogsInDb()
+    assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+
+    const contents = blogsAtEnd.map(blog =>  blog.title)
+    assert(contents.includes('New blog post'))
+})
+
 after( async () => {
     await mongoose.connection.close()
 })

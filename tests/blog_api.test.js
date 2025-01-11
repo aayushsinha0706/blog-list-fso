@@ -25,6 +25,14 @@ test(' all notes are returned as JSON', async () => {
         .expect('Content-Type', /application\/json/)
 })
 
+test('test that identifier property of the blog posts is named id and not _id', async () => {
+    const mockData = helper.initialBlogs[0]
+    const formattedBlog = helper.createMockBlogAndFormat(mockData)
+    assert.ok(formattedBlog.id)
+    assert.strictEqual(typeof formattedBlog.id, 'string')
+    assert.strictEqual(formattedBlog._id, undefined) 
+})
+
 after( async () => {
     await mongoose.connection.close()
 })

@@ -95,6 +95,26 @@ test('deletion of a note', async () => {
     const titles = blogsAtEnd.map(blog => blog.title)
     assert(!titles.includes(blogToDelete.title))
 })
+
+test('updating a blog', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+
+    const updatedBlogData = {
+        likes: 50
+    }
+
+    await api
+     .put(`/api/blogs/${blogToUpdate.id}`)
+     .send(updatedBlogData)
+     .expect(200)
+    
+    const blogsAtEnd = await helper.blogsInDb()
+    const updatedBlog = blogsAtEnd[0]
+    assert.strictEqual(updatedBlog.likes, 50)
+})
+
+
 after( async () => {
     await mongoose.connection.close()
 })

@@ -1,9 +1,33 @@
 const mongoose = require('mongoose')
 const config = require('./utils/config')
+const User = require('./models/user')
+const bcrypt = require('bcrypt')
 
 const url = config.MONGODB_URI
 mongoose.set('strictQuery', true)
 
+/*
+const main = async () => {
+    await mongoose.connect(url)
+    console.log('Connected to MongoDB')
+
+    const testPassword = 'testPassword'
+    const passwordHash = await bcrypt.hash(testPassword, 10)
+
+    const user = new User({ username: 'testuser', name: 'Test User', passwordHash })
+    await user.save()
+
+    const users = await User.find({})
+    users.forEach(user => console.log(user))
+
+    await User.deleteMany({})
+    console.log('test user deleted successfully')
+
+    await mongoose.connection.close()
+    console.log('Connection to MongoDB closed')
+}*/
+
+/*
 const connectToDb = async () => {
     await mongoose.connect(url)
 }
@@ -50,6 +74,6 @@ const main = async () => {
     await setInitialBlogs()
     await getBlogs()
     await mongoose.connection.close()
-}
+}*/
 
 main()

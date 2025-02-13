@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 
 const initialBlogs = [
@@ -36,8 +37,14 @@ const createMockBlogAndFormat = (data) => {
   return mockBlog.toJSON()
 }
 
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(user =>  user.toJSON())
+}
+
 module.exports = {
     initialBlogs,
     blogsInDb,
+    usersInDb,
     createMockBlogAndFormat
 }

@@ -3,9 +3,13 @@ require('dotenv').config()
 
 
 const blogSchema = new mongoose.Schema({
+    url: String,
     title: String,
     author: String,
-    url: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
     likes: Number
   })
 

@@ -16,9 +16,8 @@ const User = require('../models/user')
 describe('invalid users are not created and added', () => {
     beforeEach( async () => {
         await User.deleteMany({})
-        const testPassword = 'testPassword'
-        const passwordHash = await bcrypt.hash(testPassword, 10)
-        const user = new User({ username: 'testuser', name: 'Test User', passwordHash })
+        const passwordHash = await bcrypt.hash(helper.testUser.password, 10)
+        const user = new User({ username: helper.testUser.username, name: helper.testUser.name, passwordHash })
         await user.save()
     })    
 
@@ -64,9 +63,9 @@ describe('invalid users are not created and added', () => {
     test('creation fails with proper statuscode and message if username is not unique', async () => {
         const usersAtStart = await helper.usersInDb()
         const newUser = {
-            username: 'testuser',
-            name: 'New User',
-            password: 'testPassword'
+            username: helper.testUser.username,
+            name: helper.testUser.name,
+            password: helper.testUser.password
         }
         const result = await api
             .post('/api/users')

@@ -60,6 +60,25 @@ describe('invalid users are not created and added', () => {
 
     })
 
+    test('fails with statuscode 400 if username is too short', async () => {
+        const usersAtStart = await helper.usersInDb()
+
+        const invalidUser = {
+            username: 'in',
+            name: 'Invalid User 3',
+            password: 'testpassword'
+        }
+
+        const result = await api
+            .post('/api/users')
+            .send(invalidUser)
+            .expect(400)
+        
+        const usersAtEnd = await helper.usersInDb()
+        assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+        assert(result.body.error.includes('Username and password must be at least 3 characters long'))
+    })
+
     test('creation fails with proper statuscode and message if username is not unique', async () => {
         const usersAtStart = await helper.usersInDb()
         const newUser = {
